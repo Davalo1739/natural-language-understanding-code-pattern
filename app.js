@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const app = express();
 require('./config/express')(app);
+const cors = require('cors');
 
 let client;
 try {
@@ -17,6 +18,8 @@ try {
 app.get('/health', (req, res) => {
   res.json({ status: 'UP' });
 });
+
+app.use(cors())
 
 app.post('/api/analyze', async (req, res, next) => {
   try {
@@ -33,6 +36,9 @@ app.post('/api/analyze', async (req, res, next) => {
     next(error);
   }
 });
+
+
+
 
 // error-handler settings for all other routes
 require('./config/error-handler')(app);
